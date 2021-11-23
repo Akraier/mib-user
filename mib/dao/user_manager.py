@@ -5,8 +5,8 @@ from mib.models.user import User
 class UserManager(Manager):
 
     @staticmethod
-    def create_user(user: User):
-        Manager.create(user=user)
+    def create_user(User: User):
+        Manager.create(User=user)
 
     @staticmethod
     def retrieve_by_id(id_):
@@ -24,12 +24,12 @@ class UserManager(Manager):
         return User.query.filter(User.phone == phone).first()
 
     @staticmethod
-    def update_user(user: User):
-        Manager.update(user=user)
+    def update_user(User: User):
+        Manager.update(User=user)
 
     @staticmethod
-    def delete_user(user: User):
-        Manager.delete(user=user)
+    def delete_user(User: User):
+        Manager.delete(User=user)
 
     @staticmethod
     def delete_user_by_id(id_: int):

@@ -81,3 +81,11 @@ def delete_user(user_id):
     }
 
     return jsonify(response_object), 202
+
+def report_user(user_id):
+    UserManager.report_user(user_id)
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully reported',
+    }
+    return jsonify(response_object),202

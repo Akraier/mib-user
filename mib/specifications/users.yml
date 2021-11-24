@@ -50,6 +50,27 @@ paths:
         default:
           description: An error occured during retrieving the user
 
+  /report_user/{user_id}:
+    get:
+      tags: [ User ]
+      description: Report a user by its id
+      operationId: mib.resources.users.report_user
+      parameters:
+        - name: user_id
+          description: User Unique ID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: User reported
+        404:
+          description: User not found
+        default:
+          description: An error occured during reporting the user
+
     delete:
       tags: [ User ]
       description: Delete a user by its id

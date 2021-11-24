@@ -2,6 +2,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from mib import db
 
+blacklist = db.Table('blacklist',
+    
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True), # actual user id
+    db.Column('black_id', db.Integer, db.ForeignKey('user.id'), primary_key=True), # blocked user id
+)
 
 class User(db.Model):
     """Representation of User model."""

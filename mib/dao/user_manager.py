@@ -35,3 +35,8 @@ class UserManager(Manager):
     def delete_user_by_id(id_: int):
         user = UserManager.retrieve_by_id(id_)
         UserManager.delete_user(user)
+
+    #retrieve all users in the DB filtering 
+    @staticmethod
+    def retrieve_all():
+        return User.query.all()

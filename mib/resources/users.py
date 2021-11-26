@@ -36,6 +36,20 @@ def create_user():
 
     return jsonify(response_object), 201
 
+def get_list_of_users():
+    """
+    Retreive a list of every user in the db
+    """
+    list_user = UserManager.retrieve_all() #see if list_user is a list of User objs
+    if list_user is None:
+        response = {'status': 'User not present'}
+        return jsonify(response), 404
+    
+    result = {}
+    for user in list_user:
+        val = {user.id : jsonify(user.serialize())}
+        result.update(val)
+    return jsonify(result), 200
 
 def get_user(user_id):
     """

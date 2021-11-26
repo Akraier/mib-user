@@ -1,11 +1,21 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
+<<<<<<< HEAD
+=======
+import bcrypt
+
+>>>>>>> main
 from mib import db
 
 blacklist = db.Table('blacklist',
     
+<<<<<<< HEAD
     db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True), # actual user id
     db.Column('black_id', db.Integer, db.ForeignKey('User.id'), primary_key=True), # blocked user id
+=======
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True), # actual user id
+    db.Column('black_id', db.Integer, db.ForeignKey('user.id'), primary_key=True), # blocked user id
+>>>>>>> main
 )
 
 class User(db.Model):
@@ -30,6 +40,7 @@ class User(db.Model):
     filter_isactive = db.Column(db.Boolean, default=False) #content filter for user
     n_report = db.Column(db.Integer, default = 0) #number of report that the user received 
     ban_expired_date = db.Column(db.DateTime, default = None) #data a cui finisce il ban dell'utente
+<<<<<<< HEAD
     
     black_list = relationship('User',
         secondary=blacklist,
@@ -38,6 +49,18 @@ class User(db.Model):
         backref="user_id",
         lazy = 'dynamic')
     
+=======
+    lottery_ticket_number = db.Column(db.Integer, default = -1) #lottery ticker number 0-99
+    lottery_points = db.Column(db.Integer, default = 0) #points gained with the monthly lottery
+
+    black_list = relationship('User',
+    secondary=blacklist,
+    primaryjoin=id==blacklist.c.user_id,
+    secondaryjoin=id==blacklist.c.black_id,
+    backref="user_id",
+    lazy = 'dynamic')
+
+>>>>>>> main
     def __init__(self, *args, **kw):
         super(User, self).__init__(*args, **kw)
         self._authenticated = False

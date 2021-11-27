@@ -8,6 +8,26 @@ servers:
   - url: /
 
 paths:
+  /user: 
+    post: 
+      summary: Add a new user 
+      tags: 
+        - Users 
+      operationId: mib.resources.users.create_user 
+      requestBody: 
+        description: Create a new customer inside microservice app 
+        required: true 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/User' 
+      responses: 
+        201: 
+          description: Created 
+        200: 
+          description: User already exists 
+        default: 
+          description: Error during creation of the user
   /users:
     get:
       summary: Retrieve a list of users

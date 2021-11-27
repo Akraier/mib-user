@@ -18,7 +18,7 @@ def create_user():
         }), 200
 
     user = User()
-    birthday = datetime.strptime(post_data.get('birthdate'),'%d/%m%Y')
+    birthday = datetime.strptime(post_data.get('birthdate'),'%d/%m/%Y')
     user.set_email(email)
     user.set_password(password)
     user.set_first_name(post_data.get('firstname'))

@@ -17,19 +17,20 @@ class User(db.Model):
     __tablename__ = 'User'
 
     # A list of fields to be serialized
-    SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated', 'is_anonymous', 'black_list']
+    SERIALIZE_LIST = ['id', 'email', 'is_active', 'authenticated', 'is_anonymous']
 
     # All fields of user
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.Unicode(128), nullable=False, unique=True)
     firstname = db.Column(db.Unicode(128), nullable=False, unique=False)
     lastname = db.Column(db.Unicode(128), nullable=False, unique=False)
-    password = db.Column(db.LargeBinary(128)) # To avoid having warining. We store binary datas for the password (the result of bcrypt.hashpw)
+    password = db.Column(db.Unicode(128)) # To avoid having warining. We store binary datas for the password (the result of bcrypt.hashpw)
     date_of_birth = db.Column(db.DateTime)
     is_active = db.Column(db.Boolean, default=True) # To know if a user is active, in the sense that its account is not deleted
     is_admin = db.Column(db.Boolean, default=False)
     is_anonymous = False
     authenticated = db.Column(db.Boolean, default=True)
+    phone = db.Column(db.Unicode(128), nullable=False, unique=True)
 
     filter_isactive = db.Column(db.Boolean, default=False) #content filter for user
     n_report = db.Column(db.Integer, default = 0) #number of report that the user received 
@@ -66,6 +67,9 @@ class User(db.Model):
     def is_authenticated(self):
         return self.authenticated
 
+    def set_phone(self, phone):
+        self.phone = phone
+
     def authenticate(self, password):
         #checked = check_password_hash(self.password, password) OLD
         checked = bcrypt.checkpw(password.encode('utf-8'), self.password) #check password hash and salt
@@ -76,4 +80,4 @@ class User(db.Model):
         return self.id
 
     def serialize(self):
-        return dict([(k, self.__getattribute__(k)) for k in self.SERIALIZE_LIST])
+        return dict([(k,self.__getattribute__(k)) for k in self.SERIALIZE_LIST])

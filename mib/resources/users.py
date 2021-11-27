@@ -10,7 +10,7 @@ def create_user():
     post_data = request.get_json()
     email = post_data.get('email')
     password = post_data.get('password')
-
+    
     searched_user = UserManager.retrieve_by_email(email)
     if searched_user is not None:
         return jsonify({
@@ -24,9 +24,9 @@ def create_user():
     user.set_first_name(post_data.get('firstname'))
     user.set_last_name(post_data.get('lastname'))
     user.set_birthday(birthday)
-    #user.set_phone(post_data.get('phone'))
+    user.set_phone(post_data.get('phone'))
     UserManager.create_user(user)
-
+    
     response_object = {
         'user': user.serialize(),
         'status': 'success',

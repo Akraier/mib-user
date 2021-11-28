@@ -212,7 +212,7 @@ components:
         birthdate:
           type: string
           description: Customer birthdate
-          example: '2020-01-01'
+          example: '01/01/2000'
           format: date
         phone:
           type: string

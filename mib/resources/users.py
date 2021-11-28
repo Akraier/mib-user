@@ -41,14 +41,12 @@ def get_list_of_users():
     """
     list_user = UserManager.retrieve_all() #see if list_user is a list of User objs
     if list_user is None:
-        response = {'status': 'User not present'}
+        response = {'status': 'Cannot retrieve the list of users'}
         return jsonify(response), 404
     
-    result = {}
-    for user in list_user:
-        val = {user.id : jsonify(user.serialize())}
-        result.update(val)
-    return jsonify(result), 200
+    result = [user.serialize() for user in list_user]
+    
+    return jsonify({ "users_list": result}), 200
 
 def get_user(user_id):
     """

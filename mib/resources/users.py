@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from mib.dao.user_manager import UserManager
 from mib.models.user import User
-import datetime
+from datetime import datetime
 
 
 def create_user():
@@ -10,7 +10,7 @@ def create_user():
     post_data = request.get_json()
     email = post_data.get('email')
     password = post_data.get('password')
-
+    
     searched_user = UserManager.retrieve_by_email(email)
     if searched_user is not None:
         return jsonify({
@@ -18,8 +18,7 @@ def create_user():
         }), 200
 
     user = User()
-    birthday = datetime.datetime.strptime(post_data.get('birthdate'),
-                                          '%Y-%m-%d')
+    birthday = datetime.strptime(post_data.get('birthdate'),'%d/%m/%Y')
     user.set_email(email)
     user.set_password(password)
     user.set_first_name(post_data.get('firstname'))
@@ -27,7 +26,7 @@ def create_user():
     user.set_birthday(birthday)
     user.set_phone(post_data.get('phone'))
     UserManager.create_user(user)
-
+    
     response_object = {
         'user': user.serialize(),
         'status': 'success',

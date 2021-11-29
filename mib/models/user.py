@@ -60,7 +60,6 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -----------------> " + self.password)
         
     def set_birthday(self, birthday):
         self.date_of_birth = birthday

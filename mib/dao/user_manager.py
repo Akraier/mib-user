@@ -37,9 +37,8 @@ class UserManager(Manager):
         user = UserManager.retrieve_by_id(id_)
         if user is None: #to check the existance of user
             return None
-        print(user)
-        print(type(user))
-        user["is_active"] = False #TO CHECK IF WORKS
+        user.is_active = False # deactivate the user
+        print(user.is_active)
         UserManager.update_user(user)
         return user
 

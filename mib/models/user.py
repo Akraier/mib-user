@@ -24,7 +24,7 @@ class User(db.Model):
     email = db.Column(db.Unicode(128), nullable=False, unique=True)
     firstname = db.Column(db.Unicode(128), nullable=False, unique=False)
     lastname = db.Column(db.Unicode(128), nullable=False, unique=False)
-    password = db.Column(db.Unicode(128)) # To avoid having warining. We store binary datas for the password (the result of bcrypt.hashpw)
+    password = db.Column(db.LargeBinary(128)) # To avoid having warining. We store binary datas for the password (the result of bcrypt.hashpw)
     date_of_birth = db.Column(db.DateTime)
     is_active = db.Column(db.Boolean, default=True) # To know if a user is active, in the sense that its account is not deleted
     is_admin = db.Column(db.Boolean, default=False)

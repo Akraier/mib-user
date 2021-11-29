@@ -17,7 +17,7 @@ class User(db.Model):
     __tablename__ = 'User'
 
     # A list of fields to be serialized
-    SERIALIZE_LIST = ['id', 'email', 'firstname', 'lastname', 'is_active', 'authenticated', 'is_anonymous']
+    SERIALIZE_LIST = ['id', 'email', 'firstname', 'lastname', 'is_active', 'authenticated', 'is_anonymous', 'ban_expired_date']
 
     # All fields of user
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -59,7 +59,8 @@ class User(db.Model):
         self.lastname = lastname
 
     def set_password(self, password):
-        self.password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -----------------> " + self.password)
         
     def set_birthday(self, birthday):
         self.date_of_birth = birthday
@@ -72,7 +73,7 @@ class User(db.Model):
 
     def authenticate(self, password):
         #checked = check_password_hash(self.password, password) OLD
-        checked = bcrypt.checkpw(password.encode('utf-8'), self.password) #check password hash and salt
+        checked = bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8')) #check password hash and salt
         self.authenticated = checked
         return self.authenticated
 

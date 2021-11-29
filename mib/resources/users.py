@@ -62,7 +62,6 @@ def get_user(user_id):
 
     return jsonify(user.serialize()), 200
 
-
 def get_user_by_email(user_email):
     """
     Get a user by its current email.
@@ -78,20 +77,27 @@ def get_user_by_email(user_email):
     return jsonify(user.serialize()), 200
 
 
+
+#TO MODIFY
 def delete_user(user_id):
     """
     Delete the user with id = user_id.
+    Our delete is to set the "is_active" field to False.
 
     :param user_id the id of user to be deleted
     :return json response
     """
-    UserManager.delete_user_by_id(user_id)
-    response_object = {
-        'status': 'success',
-        'message': 'Successfully deleted',
-    }
+    usr = UserManager.delete_user_by_id(user_id)
+    if usr is None:
+        response = {'status': 'User not present'}
+        return jsonify(response), 404
+    else:
+        response = {
+            'status': 'success',
+            'message': 'Successfully deleted',
+        }
+        return jsonify(response), 202
 
-    return jsonify(response_object), 202
 
 def report_user(user_id):
     UserManager.report_user(user_id)

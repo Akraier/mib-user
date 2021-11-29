@@ -7,6 +7,8 @@ LABEL version="1.0"
 LABEL description="Message in a Bottle User Microservice"
 
 # creating the environment
+COPY ./requirements* /requirements/
+RUN ["pip", "install", "-r", "/requirements/requirements.prod.txt"]
 COPY . /app
 # setting the workdir
 WORKDIR /app

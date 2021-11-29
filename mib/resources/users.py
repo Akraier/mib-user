@@ -94,9 +94,9 @@ def delete_user(user_id):
     return jsonify(response_object), 202
 
 def report_user(user_id):
-    UserManager.report_user(user_id)
+    #UserManager.report_user(user_id)
     response_object = {
         'status': 'success',
-        'message': 'Successfully reported',
+        'message': 'Report non yet implemented',
     }
-    return jsonify(response_object),202
+    return jsonify(response_object),200

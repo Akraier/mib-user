@@ -63,7 +63,7 @@ paths:
           description: An error occured during retrieving the user
 
   /report_user/{user_id}:
-    get:
+    post:
       tags: [ User ]
       description: Report a user by its id
       operationId: mib.resources.users.report_user
@@ -82,7 +82,23 @@ paths:
           description: User not found
         default:
           description: An error occured during reporting the user
-
+          post:
+    post:
+      requestBody:
+        description: Create a new customer inside microservice app
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Created
+        200:
+          description: User already exists
+        default:
+          description: Error during creation of the user
+  /delete/{user_id}:
     delete:
       tags: [ User ]
       description: Delete a user by its id

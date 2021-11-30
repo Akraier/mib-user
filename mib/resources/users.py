@@ -101,11 +101,16 @@ def delete_user(user_id):
         }
         return jsonify(response), 202
 
-def content_filter(user_id):
-    user = UserManager.retrieve_by_id(user_id)
+def content_filter():
     putdata = request.get_json()
+    print("CONTENT FILTER FUNTON *************")
+    user = UserManager.retrieve_by_id(putdata.get('id'))
+    print("UTENTE :::::: ", user)
+    
+    print("PUTDATA :::::: ", putdata)
     user.filter_isactive = putdata.get('filter')
-    UserManager.update(user)
+    print("FILTRO NUOVO :::::: ", user.filter_isactive)
+    UserManager.update_user(user)
     response = {
         'status': 'success',
         'message': 'Successfully updated content filter',
@@ -119,3 +124,23 @@ def report_user(user_id):
         'message': 'Successfully reported',
     }
     return jsonify(response_object),202
+
+#to update a user profile (used for myaccount/modify)
+def update_user(user_id):
+    new_data = request.get_json()
+    user = UserManager.retrieve_by_id(user_id)
+    
+    user.email = new_data.get('email')
+    user.set_password(new_data.get('password'))
+    user.firstname = new_data.get('firstname')
+    user.birthdate = datetime.strptime(new_data.get('birthdate'),'%d/%m/%Y')
+    user.lastname = new_data.get('lastname')
+    
+    UserManager.update_user(user)
+    
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully updated',
+    }
+    
+    return jsonify(response_object), 200

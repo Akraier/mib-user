@@ -41,7 +41,7 @@ class UserManager(Manager):
         print(user.is_active)
         UserManager.update_user(user)
         return user
-
+    
     #retrieve all users in the DB filtering 
     @staticmethod
     def retrieve_all():

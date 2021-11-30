@@ -87,17 +87,30 @@ def delete_user(user_id):
     :param user_id the id of user to be deleted
     :return json response
     """
-    usr = UserManager.delete_user_by_id(user_id)
+    usr = UserManager.retrieve_by_id(user_id)
     if usr is None:
         response = {'status': 'User not present'}
         return jsonify(response), 404
     else:
+        user.is_active = False # deactivate the user
+        print(user.is_active)
+        UserManager.update_user(user)
         response = {
             'status': 'success',
             'message': 'Successfully deleted',
         }
         return jsonify(response), 202
 
+def content_filter(user_id):
+    user = UserManager.retrieve_by_id(user_id)
+    putdata = request.get_json()
+    user.filter_isactive = putdata.get('filter')
+    UserManager.update(user)
+    response = {
+        'status': 'success',
+        'message': 'Successfully updated content filter',
+    }
+    return jsonify(response), 200
 
 def report_user(user_id):
     UserManager.report_user(user_id)

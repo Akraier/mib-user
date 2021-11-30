@@ -80,7 +80,7 @@ paths:
           description: User not found
         default:
           description: An error occured during deleting the user
-    post:
+    put:
       tags: [ User ]
       description: Update a user
       operationId: mib.resources.users.update_user

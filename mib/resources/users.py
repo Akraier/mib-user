@@ -129,9 +129,13 @@ def report_user(user_id):
 def update_user(user_id):
     new_data = request.get_json()
     user = UserManager.retrieve_by_id(user_id)
+    current_psw = new_data.get('password')
+    new_psw = new_data.get('newpassword')
+    if current_psw != new_psw and new_psw != "":
+        #check that the password has been changed with a valid value before update
+        user.set_password(new_data.get('password'))
     
     user.email = new_data.get('email')
-    user.set_password(new_data.get('password'))
     user.firstname = new_data.get('firstname')
     user.birthdate = datetime.strptime(new_data.get('birthdate'),'%d/%m/%Y')
     user.lastname = new_data.get('lastname')

@@ -103,13 +103,9 @@ def delete_user(user_id):
 
 def content_filter():
     putdata = request.get_json()
-    print("CONTENT FILTER FUNTON *************")
     user = UserManager.retrieve_by_id(putdata.get('id'))
-    print("UTENTE :::::: ", user)
     
-    print("PUTDATA :::::: ", putdata)
     user.filter_isactive = putdata.get('filter')
-    print("FILTRO NUOVO :::::: ", user.filter_isactive)
     UserManager.update_user(user)
     response = {
         'status': 'success',
@@ -131,10 +127,7 @@ def update_user(user_id):
     user = UserManager.retrieve_by_id(user_id)
     current_psw = new_data.get('password')
     new_psw = new_data.get('newpassword')
-    print("CURRENT PPPPPAAAASSS :: "+current_psw)
-    print("NEW PAAAAAAAAAAASSS :: "+new_psw)
     if current_psw != new_psw and new_psw != "":
-        print("SONO QUI?")
         #check that the password has been changed with a valid value before update
         user.set_password(new_psw)
     
@@ -146,9 +139,6 @@ def update_user(user_id):
     user.lastname = new_data.get('lastname')
     
     UserManager.update_user(user)
-    
-    print("------NOW THE USER IS UP TO DATE---------")
-    print("THE NEW USER IS :::::: ", UserManager.retrieve_by_id(user_id))
     
     response_object = {
         'status': 'success',

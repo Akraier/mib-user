@@ -2,7 +2,7 @@ from flask import request, jsonify
 from mib.dao.user_manager import UserManager
 from mib.models.user import User
 from datetime import datetime as dt
-
+from mib.dao.black_listmanager import BlackListManager
 
 def create_user():
     """This method allows the creation of a new user.
@@ -146,3 +146,37 @@ def update_user(user_id):
     }
     
     return jsonify(response_object), 200
+
+def get_blacklist(user_id):
+    """
+    Retreive the blacklist
+    """
+    list_user = BlackListManager.retrive_blacklist(user_id)
+    print(list_user)
+    if list_user is None:
+        response = {'status': 'Cannot retrieve the list of blacklist'}
+        return jsonify(response), 404
+    
+    result = [user.serialize() for user in list_user]
+    
+    return jsonify({ "users_list": result}), 200
+
+
+
+def post_blacklist_target():
+    """
+    Insert the Target inside the blacklist
+    """
+    post_data = request.get_json()
+    user_id = post_data.get('user_id')
+    black_id = post_data.get('black_id')
+
+    return BlackListManager.insert_id(user_id,black_id)
+    
+
+def delete_blacklist_target():
+     """
+    Delete the Target inside the blacklist
+    """
+
+

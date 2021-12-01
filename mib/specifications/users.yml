@@ -288,9 +288,78 @@ paths:
                 type: object
                 properties:
                   error_message:
-                    type: string        
+                    type: string
+  /user/blacklist/{user_id}:
+    get:
+      summary: Retrieve a list of users
+      tags: [ User ]
+      operationId: mib.resources.users.get_blacklist
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      parameters:
+        - name: user_id
+          description: User Unique ID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Black list of user <user_id>
+        404:
+          description: No list found
+        default:
+          description: Error while getting list of user
+  
+  /user/blacklist/target:
+    post:
+      tags: [ User ]
+      description: Report a user by its id
+      operationId: mib.resources.users.post_blacklist_target
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlackId'
+     
+     
+      responses:
+        200:
+          description: User inserted
+        404:
+          description: User not found
+        default:
+          description: An error occured during the insertion in blacklist
+
 components:
   schemas:
+
+    BlackId:
+      required:
+        - user_id
+        - black_id
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: Customer email
+          example: 1
+          format: int64
+        black_id:
+          type: integer
+          description: Customer email
+          example: 2
+          format: int64
+
+
     User:
       required:
         - firstname

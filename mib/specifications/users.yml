@@ -128,7 +128,7 @@ paths:
     post:
       tags: [ User ]
       description: set the value of "is_active" to false
-      operationId: mib.resources.users.delete_user
+      operationId: mib.resources.users.report_user
       parameters:
         - name: user_id
           description: User Unique ID
@@ -144,51 +144,51 @@ paths:
           description: User not found
         default:
           description: An error occured during reporting the user
-  /delete/{user_id}:
-    put:
-      tags: [ User ]
-      description: Update a user
-      operationId: mib.resources.users.update_user
-      parameters:
-        - name: user_id
-          description: User Unique ID
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: Update a user
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                email: 
-                  type: string
-                  description: Email of the user
-                password:
-                  type: string
-                  description: Password of the user
-                firstname:
-                  type: string
-                  description: Firstname of the user
-                lastname:
-                  type: string
-                  description: Lastname of the user
-                birthdate:
-                  type: string
-                  description: Birthdate of the user
-              required: ['filter', 'id', 'email', 'password', 'firstname', 'lastname', 'birthdate']
-              $ref: '#/components/schemas/User'
-      responses:
-        202:
-          description: User "updated"
-        404:
-          description: User not found
-        default:
-          description: An error occured during updating the user
+  #/delete/{user_id}:
+  #  put:
+  #    tags: [ User ]
+  #    description: Update a user
+  #    operationId: mib.resources.users.update_user
+  #    parameters:
+  #      - name: user_id
+  #        description: User Unique ID
+  #        in: path
+  #        required: true
+  #        schema:
+  #          type: integer
+  #          format: int64
+  #    requestBody:
+  #      description: Update a user
+  #      required: true
+  #      content:
+  #        application/json:
+  #          schema:
+  #            type: object
+  #            properties: 
+  #              email: 
+  #                type: string
+  #                description: Email of the user
+  #              password:
+  #                type: string
+  #                description: Password of the user
+  #              firstname:
+  #                type: string
+  #                description: Firstname of the user
+  #              lastname:
+  #                type: string
+  #                description: Lastname of the user
+  #              birthdate:
+  #                type: string
+  #                description: Birthdate of the user
+  #            required: ['filter', 'id', 'email', 'password', 'firstname', 'lastname', 'birthdate']
+  #            $ref: '#/components/schemas/User'
+  #    responses:
+  #      202:
+  #        description: User "updated"
+  #      404:
+  #        description: User not found
+  #      default:
+  #        description: An error occured during updating the user
   /user_email/{user_email}:
     get:
       tags: [ User ]

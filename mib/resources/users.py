@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from mib.dao.user_manager import UserManager
 from mib.models.user import User
-from datetime import datetime
+from datetime import datetime as dt
 
 
 def create_user():
@@ -131,16 +131,24 @@ def update_user(user_id):
     user = UserManager.retrieve_by_id(user_id)
     current_psw = new_data.get('password')
     new_psw = new_data.get('newpassword')
+    print("CURRENT PPPPPAAAASSS :: "+current_psw)
+    print("NEW PAAAAAAAAAAASSS :: "+new_psw)
     if current_psw != new_psw and new_psw != "":
+        print("SONO QUI?")
         #check that the password has been changed with a valid value before update
-        user.set_password(new_data.get('password'))
+        user.set_password(new_psw)
     
     user.email = new_data.get('email')
     user.firstname = new_data.get('firstname')
-    user.date_of_birth = datetime.strptime(new_data.get('birthdate'),'%d/%m/%Y')
+    date_string = new_data.get('birthdate')
+    date_obj_datetime = dt.strptime(date_string, '%d/%m/%Y').date()
+    user.date_of_birth = date_obj_datetime
     user.lastname = new_data.get('lastname')
     
     UserManager.update_user(user)
+    
+    print("------NOW THE USER IS UP TO DATE---------")
+    print("THE NEW USER IS :::::: ", UserManager.retrieve_by_id(user_id))
     
     response_object = {
         'status': 'success',

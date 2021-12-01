@@ -27,14 +27,14 @@ class BlackListManager(Manager):
                  u1.black_list.append(u2)
                  db.session.commit()
                  user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
-                 print(user_bl)
                  result = [user.serialize() for user in user_bl]
-                 return jsonify({'status':'Target added to the blacklist', 'content': result }),200
+                 Dict = [dict([('email',result[0].get('email')), ('firstname', result[0].get('firstname')),('lastname',result[0].get('lastname')) ])]
+                 return jsonify({'status':'Target added to the blacklist', 'content': Dict }),200
             else:
                 user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
-                print(user_bl)
                 result = [user.serialize() for user in user_bl]
-                return jsonify({'status':'This user is already in your blacklist!','content': result}), 200    
+                Dict = [dict([('email',result[0].get('email')), ('firstname', result[0].get('firstname')),('lastname',result[0].get('lastname')) ])]
+                return jsonify({'status':'This user is already in your blacklist!','content': Dict}), 200    
         else:
             return jsonify({'status':'Please check that you select a correct user'}),404
 

@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from mib.dao.user_manager import UserManager
 from mib.models.user import User
-from datetime import datetime
+from datetime import datetime as dt
 
 
 def create_user():
@@ -18,7 +18,7 @@ def create_user():
         }), 200
 
     user = User()
-    birthday = datetime.strptime(post_data.get('birthdate'),'%d/%m/%Y')
+    birthday = dt.strptime(post_data.get('birthdate'),'%d/%m/%Y')
     user.set_email(email)
     user.set_password(password)
     user.set_first_name(post_data.get('firstname'))
@@ -62,7 +62,6 @@ def get_user(user_id):
 
     return jsonify(user.serialize()), 200
 
-
 def get_user_by_email(user_email):
     """
     Get a user by its current email.
@@ -78,20 +77,41 @@ def get_user_by_email(user_email):
     return jsonify(user.serialize()), 200
 
 
+
+#TO MODIFY
 def delete_user(user_id):
     """
     Delete the user with id = user_id.
+    Our delete is to set the "is_active" field to False.
 
     :param user_id the id of user to be deleted
     :return json response
     """
-    UserManager.delete_user_by_id(user_id)
-    response_object = {
-        'status': 'success',
-        'message': 'Successfully deleted',
-    }
+    user = UserManager.retrieve_by_id(user_id)
+    if user is None:
+        response = {'status': 'User not present'}
+        return jsonify(response), 404
+    else:
+        user.is_active = False # deactivate the user
+        print(user.is_active)
+        UserManager.update_user(user)
+        response = {
+            'status': 'success',
+            'message': 'Successfully deleted',
+        }
+        return jsonify(response), 202
 
-    return jsonify(response_object), 202
+def content_filter():
+    putdata = request.get_json()
+    user = UserManager.retrieve_by_id(putdata.get('id'))
+    
+    user.filter_isactive = putdata.get('filter')
+    UserManager.update_user(user)
+    response = {
+        'status': 'success',
+        'message': 'Successfully updated content filter',
+    }
+    return jsonify(response), 200
 
 def report_user(user_id):
     #UserManager.report_user(user_id)
@@ -99,4 +119,30 @@ def report_user(user_id):
         'status': 'success',
         'message': 'Report non yet implemented',
     }
-    return jsonify(response_object),200
+    return jsonify(response_object),202
+
+#to update a user profile (used for myaccount/modify)
+def update_user(user_id):
+    new_data = request.get_json()
+    user = UserManager.retrieve_by_id(user_id)
+    current_psw = new_data.get('password')
+    new_psw = new_data.get('newpassword')
+    if current_psw != new_psw and new_psw != "":
+        #check that the password has been changed with a valid value before update
+        user.set_password(new_psw)
+    
+    user.email = new_data.get('email')
+    user.firstname = new_data.get('firstname')
+    date_string = new_data.get('birthdate')
+    date_obj_datetime = dt.strptime(date_string, '%d/%m/%Y').date()
+    user.date_of_birth = date_obj_datetime
+    user.lastname = new_data.get('lastname')
+    
+    UserManager.update_user(user)
+    
+    response_object = {
+        'status': 'success',
+        'message': 'Successfully updated',
+    }
+    
+    return jsonify(response_object), 200

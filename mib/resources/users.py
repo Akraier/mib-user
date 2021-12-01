@@ -137,7 +137,7 @@ def update_user(user_id):
     
     user.email = new_data.get('email')
     user.firstname = new_data.get('firstname')
-    user.birthdate = datetime.strptime(new_data.get('birthdate'),'%d/%m/%Y')
+    user.date_of_birth = datetime.strptime(new_data.get('birthdate'),'%d/%m/%Y')
     user.lastname = new_data.get('lastname')
     
     UserManager.update_user(user)

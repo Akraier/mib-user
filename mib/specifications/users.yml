@@ -294,13 +294,6 @@ paths:
       summary: Retrieve a list of users
       tags: [ User ]
       operationId: mib.resources.users.get_blacklist
-      requestBody:
-        description: Optional description in *Markdown*
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
       parameters:
         - name: user_id
           description: User Unique ID

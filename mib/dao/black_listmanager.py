@@ -8,13 +8,21 @@ class BlackListManager(Manager):
 
    
     
-    #retrieve all users in the DB filtering 
+    #retrieve the list of blacklist
     @staticmethod
     def retrive_blacklist(user_id):
-        _user = db.session.query(User.id, User.email,User.firstname,User.lastname,blacklist).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id)
-        return _user
+        _user = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id)
+        if _user is None:
+            response = {'status': 'Cannot retrieve the list of blacklist'}
+            return jsonify(response), 404
+    
+        result = [user.serialize() for user in _user]
+        l = aux_filter(result)
+        result = jsonify({ "users_list": l}), 200
+        return result
 
-     #retrieve all users in the DB filtering 
+
+     #Insert in the blacklist
     @staticmethod
     def insert_id(user_id,black_id):
         print(user_id, black_id)
@@ -28,30 +36,32 @@ class BlackListManager(Manager):
                  db.session.commit()
                  user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
                  result = [user.serialize() for user in user_bl]
-                 Dict = [dict([('email',result[0].get('email')), ('firstname', result[0].get('firstname')),('lastname',result[0].get('lastname')) ])]
-                 return jsonify({'status':'Target added to the blacklist', 'content': Dict }),200
+                 l = aux_filter(result)
+                 return jsonify({'status':'Target added to the blacklist', 'content': l }),200
             else:
+                #The user is already in blacklist
                 user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
                 result = [user.serialize() for user in user_bl]
-                Dict = [dict([('email',result[0].get('email')), ('firstname', result[0].get('firstname')),('lastname',result[0].get('lastname')) ])]
-                return jsonify({'status':'This user is already in your blacklist!','content': Dict}), 200    
+                l = aux_filter(result)
+                return jsonify({'status':'This user is already in your blacklist!','content': l}), 200    
         else:
             return jsonify({'status':'Please check that you select a correct user'}),404
 
        
+
+def aux_filter(result):
+        l = []
+        for i in result:
+            Dict = dict()
+            print(i)
+            Dict['email']=i.get('email')
+            Dict['firstname']=i.get('firstname')
+            Dict['lastname']=i.get('lastname')
+            l.append(Dict)
+        return l
+
     
-    # if existUser is not None and existTarget is not None and current_user.id != target: 
-    #             inside = db.session.query(blacklist).filter(blacklist.c.user_id == current_user.id).filter(blacklist.c.black_id == target).first()
-    #             if inside is None: #the user is NOT already in the blacklist
-    #                 existUser.black_list.append(existTarget)
-    #                 db.session.commit()
-    #                 user_bl = db.session.query(User.email,User.firstname,User.lastname,blacklist).filter(blacklist.c.user_id == current_user.id).filter(blacklist.c.black_id == User.id)
-    #                 return render_template('black_list.html',action="User "+target+" added to the black list.",black_list = user_bl)
-    #             else: #target already in the blacklist
-    #                 user_bl = db.session.query(User.email,User.firstname,User.lastname,blacklist).filter(blacklist.c.user_id == current_user.id).filter(blacklist.c.black_id == User.id)
-    #                 return render_template('black_list.html',action="This user is already in your blacklist!",black_list = user_bl)
-    #         else:
-    #             #User or Target not in db
-    #             return render_template('black_list.html',action="Please check that you select a correct user",black_list=[])  
+
+   
     
   

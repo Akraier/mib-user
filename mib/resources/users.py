@@ -147,22 +147,17 @@ def update_user(user_id):
     
     return jsonify(response_object), 200
 
+#Get the list of Blacklist
 def get_blacklist(user_id):
     """
     Retreive the blacklist
     """
-    list_user = BlackListManager.retrive_blacklist(user_id)
-    print(list_user)
-    if list_user is None:
-        response = {'status': 'Cannot retrieve the list of blacklist'}
-        return jsonify(response), 404
+    response = BlackListManager.retrive_blacklist(user_id)
     
-    result = [user.serialize() for user in list_user]
-    
-    return jsonify({ "users_list": result}), 200
+    return response
 
 
-
+# Insert a value in the blacklist
 def post_blacklist_target():
     """
     Insert the Target inside the blacklist

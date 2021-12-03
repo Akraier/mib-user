@@ -144,51 +144,7 @@ paths:
           description: User not found
         default:
           description: An error occured during reporting the user
-  #/delete/{user_id}:
-  #  put:
-  #    tags: [ User ]
-  #    description: Update a user
-  #    operationId: mib.resources.users.update_user
-  #    parameters:
-  #      - name: user_id
-  #        description: User Unique ID
-  #        in: path
-  #        required: true
-  #        schema:
-  #          type: integer
-  #          format: int64
-  #    requestBody:
-  #      description: Update a user
-  #      required: true
-  #      content:
-  #        application/json:
-  #          schema:
-  #            type: object
-  #            properties: 
-  #              email: 
-  #                type: string
-  #                description: Email of the user
-  #              password:
-  #                type: string
-  #                description: Password of the user
-  #              firstname:
-  #                type: string
-  #                description: Firstname of the user
-  #              lastname:
-  #                type: string
-  #                description: Lastname of the user
-  #              birthdate:
-  #                type: string
-  #                description: Birthdate of the user
-  #            required: ['filter', 'id', 'email', 'password', 'firstname', 'lastname', 'birthdate']
-  #            $ref: '#/components/schemas/User'
-  #    responses:
-  #      202:
-  #        description: User "updated"
-  #      404:
-  #        description: User not found
-  #      default:
-  #        description: An error occured during updating the user
+ 
   /user_email/{user_email}:
     get:
       tags: [ User ]
@@ -309,12 +265,52 @@ paths:
           description: No list found
         default:
           description: Error while getting list of user
+    delete:
+      summary: Retrieve a list of users
+      tags: [ User ]
+      operationId: mib.resources.users.delete_blacklist
+      parameters:
+        - name: user_id
+          description: User Unique ID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Black list of user <user_id>
+        404:
+          description: No list found
+        default:
+          description: Error while getting list of user
   
   /user/blacklist/target:
     post:
       tags: [ User ]
       description: Report a user by its id
       operationId: mib.resources.users.post_blacklist_target
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlackId'
+     
+     
+      responses:
+        200:
+          description: User inserted
+        404:
+          description: User not found
+        default:
+          description: An error occured during the insertion in blacklist
+
+    delete:
+      tags: [ User ]
+      description: Report a user by its id
+      operationId: mib.resources.users.delete_target_blacklist
       requestBody:
         description: Optional description in *Markdown*
         required: true
@@ -344,12 +340,12 @@ components:
         user_id:
           type: integer
           description: Customer email
-          example: 1
+          example: 2
           format: int64
         black_id:
           type: integer
           description: Customer email
-          example: 2
+          example: 1
           format: int64
 
 

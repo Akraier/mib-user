@@ -155,6 +155,7 @@ def get_blacklist(user_id):
     response = BlackListManager.retrive_blacklist(user_id)
     
     return response
+    
 
 
 # Insert a value in the blacklist
@@ -165,13 +166,18 @@ def post_blacklist_target():
     post_data = request.get_json()
     user_id = post_data.get('user_id')
     black_id = post_data.get('black_id')
+    print(user_id)
+    print(black_id)
 
     return BlackListManager.insert_id(user_id,black_id)
     
+#Delete the black-list
+def delete_blacklist(user_id):
+    return BlackListManager.delete_blacklist(user_id)
 
-def delete_blacklist_target():
-     """
-    Delete the Target inside the blacklist
-    """
+# Delete a user in the blacklist
+def delete_target_blacklist():
+    return UserManager.delete_user_by_id()
+
 
 

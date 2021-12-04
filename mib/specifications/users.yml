@@ -266,7 +266,7 @@ paths:
         default:
           description: Error while getting list of user
     delete:
-      summary: Retrieve a list of users
+      summary: Delete the blacklist of the user
       tags: [ User ]
       operationId: mib.resources.users.delete_blacklist
       parameters:
@@ -288,7 +288,7 @@ paths:
   /user/blacklist/target:
     post:
       tags: [ User ]
-      description: Report a user by its id
+      description: Adding a user inside the blacklist
       operationId: mib.resources.users.post_blacklist_target
       requestBody:
         description: Optional description in *Markdown*
@@ -309,7 +309,7 @@ paths:
 
     delete:
       tags: [ User ]
-      description: Report a user by its id
+      description: Delete a user from the blacklist
       operationId: mib.resources.users.delete_target_blacklist
       requestBody:
         description: Optional description in *Markdown*
@@ -322,7 +322,7 @@ paths:
      
       responses:
         200:
-          description: User inserted
+          description: User deleted
         404:
           description: User not found
         default:

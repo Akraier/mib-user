@@ -64,30 +64,34 @@ class BlackListManager(Manager):
  #Delete from the blacklist
     @staticmethod
     def delete_id(user_id,black_id):
-        pass
-        return None
-        
-    #  #Delete target from blacklist
-    #         if existUser is not None and existTarget is not None:
-    #             #Delete target from current user's blacklist
-    #             bl_target = db.session.query(blacklist).filter((blacklist.c.user_id == current_user.id)&(blacklist.c.black_id == target)).first()
-    #             if bl_target is not None:
-    #                 #check that target is already into the black list 
-    #                 st = blacklist.delete().where((blacklist.c.user_id == current_user.id)&(blacklist.c.black_id == target))
-    #                 db.session.execute(st)
-    #                 db.session.commit()
-    #                 bl_ = db.session.query(User.email,User.firstname,User.lastname,blacklist).filter(blacklist.c.user_id == current_user.id).filter(blacklist.c.black_id == User.id)
-    #                 return render_template('black_list.html',action = "User "+target+" removed from your black list.",black_list= bl_)
-    #             else:
-    #                 bl_ = db.session.query(User.email,User.firstname,User.lastname,blacklist).filter(blacklist.c.user_id == current_user.id).filter(blacklist.c.black_id == User.id)
-    #                 return render_template('black_list.html', action ="This user is not in your blacklist", black_list= bl_)
-    #         else:
-    #             #User or Target not in db
-    #             return render_template('black_list.html',action="Please check that you select a correct user",black_list=[]) 
-    # else:
-    #     return redirect("/")
+        print(user_id, black_id)
+        u1 = UserManager.retrieve_by_id(user_id)
+        u2 = UserManager.retrieve_by_id(black_id)
+        if u1 is not None and u2 is not None:
+                #Deleteblack_id from current user's blacklist
+                bl_target = db.session.query(blacklist).filter((blacklist.c.user_id == user_id)&(blacklist.c.black_id ==black_id)).first()
+                if bl_target is not None:
+                    #check thatblack_id is already into the black list 
+                    st = blacklist.delete().where((blacklist.c.user_id == user_id)&(blacklist.c.black_id ==black_id))
+                    db.session.execute(st)
+                    db.session.commit()
+                    user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
+                    result = [user.serialize() for user in user_bl]
+                    l = aux_filter(result)
+                    return jsonify({'status':'Target removed from the blacklist', 'content': l }),200
+                else:
+                    user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
+                    result = [user.serialize() for user in user_bl]
+                    l = aux_filter(result)
+                    return jsonify({'status':'This user is not in your blacklist!','content': l}), 200    
+        else:
+            #User orblack_id not in db
+            return jsonify({'status':'Please check that you select a correct user'}),404
+         
+      
 
-       
+
+   
 
 def aux_filter(result):
         l = []

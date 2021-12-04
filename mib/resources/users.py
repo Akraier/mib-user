@@ -177,7 +177,14 @@ def delete_blacklist(user_id):
 
 # Delete a user in the blacklist
 def delete_target_blacklist():
-    return UserManager.delete_user_by_id()
+    """
+    Delete the target inside the blacklist
+    """
+    post_data = request.get_json()
+    user_id = post_data.get('user_id')
+    black_id = post_data.get('black_id')
+
+    return BlackListManager.delete_id(user_id,black_id)
 
 
 

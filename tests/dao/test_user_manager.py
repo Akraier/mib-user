@@ -1,6 +1,7 @@
 from faker import Faker
 
 from .dao_test import DaoTest
+from  tests.models.test_user import TestUser
 
 
 class TestUserManager(DaoTest):

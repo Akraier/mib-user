@@ -33,8 +33,8 @@ class TestUser(ModelTest):
         is_admin = TestUser.faker.boolean()
         authenticated = TestUser.faker.boolean()
         is_anonymous = TestUser.faker.boolean()
-        first_name = TestUser.faker.first_name()
-        last_name = TestUser.faker.last_name()
+        firstname = TestUser.faker.first_name()
+        lastname = TestUser.faker.last_name()
         phone = TestUser.faker.phone_number()
 
         from mib.models import User
@@ -46,8 +46,8 @@ class TestUser(ModelTest):
             is_admin=is_admin,
             authenticated=authenticated,
             is_anonymous=is_anonymous,
-            first_name=first_name,
-            last_name=last_name,
+            firstname=firstname,
+            lastname=lastname,
             phone=phone,
         )
 

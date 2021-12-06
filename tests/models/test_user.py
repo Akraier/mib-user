@@ -36,6 +36,7 @@ class TestUser(ModelTest):
         firstname = TestUser.faker.first_name()
         lastname = TestUser.faker.last_name()
         phone = TestUser.faker.phone_number()
+        filter_isactive = TestUser.faker.boolean()
 
         from mib.models import User
 
@@ -49,6 +50,7 @@ class TestUser(ModelTest):
             firstname=firstname,
             lastname=lastname,
             phone=phone,
+            filter_isactive = filter_isactive
         )
 
         return user

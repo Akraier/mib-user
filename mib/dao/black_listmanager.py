@@ -98,6 +98,7 @@ def aux_filter(result):
         for i in result:
             Dict = dict()
             print(i)
+            Dict['id']=i.get('id')
             Dict['email']=i.get('email')
             Dict['firstname']=i.get('firstname')
             Dict['lastname']=i.get('lastname')

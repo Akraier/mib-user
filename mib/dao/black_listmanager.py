@@ -33,7 +33,7 @@ class BlackListManager(Manager):
             black_list = db.session.query(blacklist).filter(blacklist.c.user_id == user_id).all()
             return jsonify({'status':'Your blacklist is now Empty','content': []}), 200  
         else:
-            return jsonify({'status':'Your blacklist already now Empty','content': []}), 200  
+            return jsonify({'status':'Your blacklist already now Empty','content': []}), 201
             
    
     #Insert in the blacklist
@@ -57,7 +57,7 @@ class BlackListManager(Manager):
                 user_bl = db.session.query(User).filter(blacklist.c.user_id == user_id).filter(blacklist.c.black_id == User.id).all()
                 result = [user.serialize() for user in user_bl]
                 l = aux_filter(result)
-                return jsonify({'status':'This user is already in your blacklist!','content': l}), 200    
+                return jsonify({'status':'This user is already in your blacklist!','content': l}), 200
         else:
             return jsonify({'status':'Please check that you select a correct user'}),404
 

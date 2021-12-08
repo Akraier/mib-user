@@ -279,7 +279,9 @@ paths:
             format: int64
       responses:
         200:
-          description: Black list of user <user_id>
+          description: Black list of user <user_id> deleted
+        201:
+          description: Blacklist already empty
         404:
           description: No list found
         default:

@@ -74,3 +74,31 @@ class TestUser(ModelTest):
     def test_is_authenticated(self):
         user = TestUser.generate_random_user()
         self.assertFalse(user.is_authenticated())
+        
+    def test_set_first_name(self):
+        user = TestUser.generate_random_user()
+        user.set_first_name("pippo")
+        self.assertEqual("pippo", user.firstname)
+        
+    def test_set_last_name(self):
+        user = TestUser.generate_random_user()
+        user.set_last_name("pluto")
+        self.assertEqual("pluto", user.lastname)
+        
+    def test_set_birthday(self):
+        user = TestUser.generate_random_user()
+        user.set_birthday("01/01/2000")
+        self.assertEqual("01/01/2000", user.date_of_birth)
+    
+    def test_set_phone(self):
+        user = TestUser.generate_random_user()
+        user.set_phone("1234567890")
+        self.assertEqual("1234567890", user.phone)
+        
+    def test_get_id(self):
+        user = TestUser.generate_random_user()
+        self.assertEqual(user.get_id(), user.id)
+        
+    
+        
+    

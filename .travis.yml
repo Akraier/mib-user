@@ -1,7 +1,7 @@
 language: python
-python: 3.9
+python: 3.8
 env:
-    - TOX_ENV=py39
+    - TOX_ENV=py38
     
 install:
     - pip install tox

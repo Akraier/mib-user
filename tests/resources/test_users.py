@@ -50,7 +50,6 @@ class TestUsers(ViewTest):
     def test_get_list_user(self):
         # get the list of user
         rv = self.client.get('/users')
-        print(rv.status_code)
         assert rv.status_code == 200
 
     def test_set_content(self):
@@ -62,20 +61,12 @@ class TestUsers(ViewTest):
             }
         
         rv = self.client.put('/myaccount/set_content', json=_data)
-        print(rv.status_code)
         assert rv.status_code == 200
 
     def test_update_user(self):
         #update the user
         user = self.login_test_user()
-        '''_data = {
-            "birthdate": user.date_of_birth,
-            "email": user.email,
-            "firstname": user.firstname,
-            "lastname": user.lastname,
-            "password": user.password,
-            "phone": user.phone
-        }'''
+        
         rv = self.client.put('/user/%d' % user.id, 
             json = {
                 "birthdate": "2/2/1980",
@@ -87,7 +78,6 @@ class TestUsers(ViewTest):
             }
             
             )
-        print(rv.status_code)
 
 
     
@@ -96,13 +86,8 @@ class TestUsers(ViewTest):
         
         #get the blacklist
         rv = self.client.get("/user/blacklist/%d"%0)
-        print(rv)
         assert rv.status_code == 200
         
-        '''#get the blacklist
-        rv = self.client.get("/user/blacklist/%d" % 987)
-        print(rv.data)
-        assert rv.status_code == 404'''
     
     def test_delete_blacklist_alrdy_empty(self):
         #delete the blacklist
@@ -138,11 +123,7 @@ class TestUsers(ViewTest):
         user = self.login_test_user()
         
         rv = self.client.get("/user/blacklist/%d"% user.id)
-        print("\n")
-        print("o" * 30)
-        print("UTENTE: ", user.id)
-        print(rv.data)
-        print("o" * 30)
+        
         
         data = {
             "black_id": 2,
@@ -153,11 +134,7 @@ class TestUsers(ViewTest):
         assert rv.status_code == 200
         
         rv = self.client.get("/user/blacklist/%d"% user.id)
-        print("a" * 30)
-        print("UTENTE: ", user.id)
-        print(rv.data)
-        print("a" * 30)
-        
+       
         #Insert again
         data = {
             "black_id": 2,
@@ -166,10 +143,6 @@ class TestUsers(ViewTest):
 
         rv = self.client.post("/user/blacklist/target", json= data)
         
-        print("g" * 30)
-        print("UTENTE: ", user.id)
-        print(rv.data)
-        print("g" * 30)
         
         assert rv.status_code == 200
         

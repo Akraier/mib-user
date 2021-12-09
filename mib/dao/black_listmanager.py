@@ -39,7 +39,6 @@ class BlackListManager(Manager):
     #Insert in the blacklist
     @staticmethod
     def insert_id(user_id,black_id):
-        print(user_id, black_id)
         u1 = UserManager.retrieve_by_id(user_id)
         u2 = UserManager.retrieve_by_id(black_id)
         if u1 is not None and u2 is not None:
@@ -64,7 +63,6 @@ class BlackListManager(Manager):
  #Delete from the blacklist
     @staticmethod
     def delete_id(user_id,black_id):
-        print(user_id, black_id)
         u1 = UserManager.retrieve_by_id(user_id)
         u2 = UserManager.retrieve_by_id(black_id)
         if u1 is not None and u2 is not None:
@@ -97,7 +95,6 @@ def aux_filter(result):
         l = []
         for i in result:
             Dict = dict()
-            print(i)
             Dict['id']=i.get('id')
             Dict['email']=i.get('email')
             Dict['firstname']=i.get('firstname')

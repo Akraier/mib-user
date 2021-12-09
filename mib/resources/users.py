@@ -93,7 +93,6 @@ def delete_user(user_id):
         return jsonify(response), 404
     else:
         user.is_active = False # deactivate the user
-        print(user.is_active)
         UserManager.update_user(user)
         response = {
             'status': 'success',
@@ -175,8 +174,6 @@ def post_blacklist_target():
     post_data = request.get_json()
     user_id = post_data.get('user_id')
     black_id = post_data.get('black_id')
-    print(user_id)
-    print(black_id)
 
     return BlackListManager.insert_id(user_id,black_id)
     

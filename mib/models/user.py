@@ -71,7 +71,6 @@ class User(db.Model):
         self.phone = phone
 
     def authenticate(self, password):
-        #checked = check_password_hash(self.password, password) OLD
         checked = bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8')) #check password hash and salt
         self.authenticated = checked
         return self.authenticated

@@ -114,12 +114,21 @@ def content_filter():
     return jsonify(response), 200
 
 def report_user(user_id):
-    #UserManager.report_user(user_id)
-    response_object = {
-        'status': 'success',
-        'message': 'Report non yet implemented',
-    }
-    return jsonify(response_object),202
+    #Check the count of n report, if threshold passed ban the user, else increase the n of report
+    threshold_ban = 3
+    user = UserManager.retrieve_by_id(user_id)
+    if not user:
+        return {'message':'User not found'}, 404
+    if user.n_report == threshold_ban - 1:
+        #ban the user
+        UserManager.ban(user)
+        message = 'User banned'
+        return {'message':message}, 201
+    else:
+        UserManager.report(user)
+        message = 'User reported'
+        return {'message':message}, 200
+    
 
 #to update a user profile (used for myaccount/modify)
 def update_user(user_id):

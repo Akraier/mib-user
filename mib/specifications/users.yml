@@ -124,26 +124,6 @@ paths:
           description: User not found
         default:
           description: An error occured during updating the user
-  /report_user/{user_id}:
-    post:
-      tags: [ User ]
-      description: set the value of "is_active" to false
-      operationId: mib.resources.users.report_user
-      parameters:
-        - name: user_id
-          description: User Unique ID
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        202:
-          description: User reported
-        404:
-          description: User not found
-        default:
-          description: An error occured during reporting the user
  
   /user_email/{user_email}:
     get:
@@ -329,7 +309,29 @@ paths:
           description: User not found
         default:
           description: An error occured during the insertion in blacklist
-
+  /report/{user_id}:
+    post:
+      tags: [ Report ]
+      description: Report a user with user_id id
+      operationId: mib.resources.users.report_user
+      parameters:
+        - name: user_id
+          description: User Unique ID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: User reported
+        201:
+          description: User banned
+        404:
+          description: User not found
+        default:
+          description: An error occured during the insertion in blacklist
+       
 components:
   schemas:
 
